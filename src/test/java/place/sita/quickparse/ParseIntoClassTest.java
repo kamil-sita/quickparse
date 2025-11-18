@@ -179,9 +179,9 @@ public class ParseIntoClassTest {
         assertEquals(1, objects.size());
         List<Object> objList = (List<Object>) objects.get(null);
         assertNotNull(objList);
-        assertEquals(objList.size(), 2);
-        assertEquals(objList.get(0), 1);
-        assertEquals(objList.get(1), 2);
+        assertEquals(2, objList.size());
+        assertEquals(1, objList.get(0));
+        assertEquals(2, objList.get(1));
     }
 
     @Test
@@ -190,9 +190,9 @@ public class ParseIntoClassTest {
         assertEquals(1, objects.size());
         List<Object> objList = (List<Object>) objects.get("");
         assertNotNull(objList);
-        assertEquals(objList.size(), 2);
-        assertEquals(objList.get(0), 1);
-        assertEquals(objList.get(1), 2);
+        assertEquals(2, objList.size());
+        assertEquals(1, objList.get(0));
+        assertEquals(2, objList.get(1));
     }
 
     @Test
@@ -201,7 +201,7 @@ public class ParseIntoClassTest {
         assertEquals(1, objects.size());
         List<Object> objList = (List<Object>) objects.get(null);
         assertNotNull(objList);
-        assertEquals(objList.size(), 2);
+        assertEquals(2, objList.size());
         assertEquals("$", objList.get(0));
         assertEquals("$", objList.get(1));
     }
