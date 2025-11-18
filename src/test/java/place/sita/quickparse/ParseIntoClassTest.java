@@ -3,6 +3,7 @@ package place.sita.quickparse;
 import org.junit.jupiter.api.Test;
 import place.sita.quickparse.exc.TemplateException;
 import place.sita.quickparse.exc.TemplateMismatchException;
+import place.sita.quickparse.templateparser.CompiledTemplate;
 
 import java.util.List;
 import java.util.Map;
@@ -205,5 +206,18 @@ public class ParseIntoClassTest {
         assertEquals("$", objList.get(1));
     }
 
+
+	@Test
+	public void should_compileTemplate() {
+		CompiledTemplate compiledTemplate = QuickParse.compileTemplate("abc ${val}(int)$");
+
+		SimpleIntegerClass obj1 = QuickParse.parseToObject(compiledTemplate, "abc 1", new SimpleIntegerClass(), SimpleIntegerClass.class);
+
+		assertEquals(1, obj1.getVal());
+
+		SimpleIntegerClass obj2 = QuickParse.parseToObject(compiledTemplate, "abc 2", new SimpleIntegerClass(), SimpleIntegerClass.class);
+
+		assertEquals(2, obj2.getVal());
+	}
 
 }

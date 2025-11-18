@@ -72,6 +72,15 @@ coords.y2; //<-- now it's -14
 
 QuickParse supports pattern compilation for reuse.
 
+The example above can be rewritten as:
+
+```java
+String template = "target area: x=$(int){x1}$..$(int){x2}$, y=-$(int){y1}$..$(int){y2}$";
+CompiledTemplate compiledTemplate = QuickParse.compileTemplate(template);
+String input = "target area: x=11..12, y=-13..-14";
+Coords coords = QuickParse.parseToObject(compiledTemplate, input, new Coords(), Coords.class);
+```
+
 
 ## Parsers
 
