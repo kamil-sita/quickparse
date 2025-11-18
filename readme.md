@@ -1,5 +1,7 @@
 # QuickParse
 
+![CI](https://github.com/kamil-sita/quickparse/actions/workflows/ci.yml/badge.svg?branch=master)
+
 QuickParse is a "de-templating" library for fast prototyping born during solving 
 tasks from Advent of Code 2021.
 
