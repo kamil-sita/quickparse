@@ -1,8 +1,8 @@
 package place.sita.quickparse.templateparser;
 
+import place.sita.architecture.PrivateApi;
 import place.sita.quickparse.CompiledTemplate;
 import place.sita.quickparse.Config;
-import place.sita.quickparse.NamedValue;
 import place.sita.quickparse.exc.InvalidApiUsageException;
 import place.sita.quickparse.exc.TemplateMismatchException;
 import place.sita.quickparse.parsers.TypeParser;
@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
+@PrivateApi
 public class ValueExtractor {
 
     public static List<NamedValue> extractValues(CompiledTemplate compiledTemplate, String text, Config config) {

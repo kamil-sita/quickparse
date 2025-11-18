@@ -1,11 +1,12 @@
 package place.sita.quickparse.parsers.implementations;
 
+import place.sita.architecture.PublicApi;
 import place.sita.quickparse.exc.ParsingException;
 import place.sita.quickparse.parsers.TypeParser;
 
 import java.util.List;
 
-
+@PublicApi
 public class IntParser implements TypeParser<Integer> {
 
     @Override
@@ -18,7 +19,7 @@ public class IntParser implements TypeParser<Integer> {
         try {
             return Integer.parseInt(s);
         } catch (Exception e) {
-            throw new ParsingException();
+            throw new ParsingException("Could not parse \"" + s + "\" to Integer.", e);
         }
     }
 }

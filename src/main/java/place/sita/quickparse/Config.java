@@ -1,5 +1,6 @@
 package place.sita.quickparse;
 
+import place.sita.architecture.PublicApi;
 import place.sita.quickparse.exc.NoSuchParserException;
 import place.sita.quickparse.parsers.implementations.IntParser;
 import place.sita.quickparse.parsers.implementations.NullableIntParser;
@@ -9,6 +10,7 @@ import place.sita.quickparse.parsers.TypeParser;
 import java.util.HashMap;
 import java.util.Map;
 
+@PublicApi
 public class Config {
 
     private final Map<String, TypeParser<?>> parsers = new HashMap<>();

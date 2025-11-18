@@ -1,5 +1,8 @@
-package place.sita.quickparse;
+package place.sita.quickparse.templateparser;
 
+import place.sita.architecture.PrivateApi;
+
+@PrivateApi
 public class NamedValue {
     private final Object value;
     private final String name;

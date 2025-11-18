@@ -1,5 +1,6 @@
 package place.sita.quickparse;
 
+import place.sita.architecture.PublicApi;
 import place.sita.quickparse.exc.AssignmentException;
 import place.sita.quickparse.exc.NoSuchParserException;
 import place.sita.quickparse.exc.TemplateException;
@@ -10,6 +11,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@PublicApi
 public class QuickParse {
 
     private static final Config DEFAULT_CONFIG = Config.defaults();

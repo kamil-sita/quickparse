@@ -1,9 +1,11 @@
 package place.sita.quickparse.templateparser;
 
+import place.sita.architecture.PrivateApi;
 import place.sita.quickparse.TemplateElement;
 
 import java.util.List;
 
+@PrivateApi
 class CaptureGroupTemplateElement implements TemplateElement {
     private final String name;
     private final String type;

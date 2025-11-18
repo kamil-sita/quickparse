@@ -1,5 +1,6 @@
 package place.sita.quickparse.parsers;
 
+import place.sita.architecture.PublicApi;
 import place.sita.quickparse.exc.ParsingException;
 
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 /**
  * Represents a parser for QuickParse.
  */
+@PublicApi
 public interface TypeParser<TYPE> {
 
     /**

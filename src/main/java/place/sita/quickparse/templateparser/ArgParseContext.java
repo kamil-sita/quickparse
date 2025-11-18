@@ -1,7 +1,10 @@
 package place.sita.quickparse.templateparser;
 
+import place.sita.architecture.PrivateApi;
+
 import java.util.List;
 
+@PrivateApi
 class ArgParseContext {
     private String type;
     private String name;

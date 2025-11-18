@@ -1,12 +1,16 @@
 package place.sita.quickparse.parsers.implementations;
 
 
+import place.sita.architecture.PublicApi;
 import place.sita.quickparse.exc.ParsingException;
 import place.sita.quickparse.parsers.TypeParser;
 
 import java.util.List;
 
+@PublicApi
 public class NullableIntParser implements TypeParser<Integer> {
+
+	private final IntParser underlying = new IntParser();
 
     @Override
     public String parserName() {
@@ -19,6 +23,6 @@ public class NullableIntParser implements TypeParser<Integer> {
             return null;
         }
 
-        return new IntParser().parse(s, args);
+        return underlying.parse(s, args);
     }
 }

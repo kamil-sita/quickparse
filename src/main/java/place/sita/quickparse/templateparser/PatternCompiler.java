@@ -1,5 +1,6 @@
 package place.sita.quickparse.templateparser;
 
+import place.sita.architecture.PrivateApi;
 import place.sita.quickparse.Template;
 import place.sita.quickparse.TemplateElement;
 import place.sita.quickparse.exc.TemplateException;
@@ -11,6 +12,7 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+@PrivateApi
 public class PatternCompiler {
 
     private static final char separator = '$';
@@ -87,7 +89,7 @@ public class PatternCompiler {
             }
             if (isClosingTag(c)) {
                 if (c != parsedTagType.closing) {
-                    throw new TemplateException("Not the expecting tag char ending. Got " + c + ", expected " + parsedTagType.closing);
+                    throw new TemplateException("Not the expected tag char ending. Got " + c + ", expected " + parsedTagType.closing);
                 }
                 isInside = false;
                 String text = template.substring(segmentStartedAt, i);
