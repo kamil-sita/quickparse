@@ -4,10 +4,7 @@ import place.sita.quickparse.exc.AssignmentException;
 import place.sita.quickparse.exc.NoSuchParserException;
 import place.sita.quickparse.exc.TemplateException;
 import place.sita.quickparse.exc.TemplateMismatchException;
-import place.sita.quickparse.templateparser.CompiledTemplate;
-import place.sita.quickparse.templateparser.PatternCompiler;
-import place.sita.quickparse.templateparser.PreCompiledTemplate;
-import place.sita.quickparse.templateparser.ValueExtractor;
+import place.sita.quickparse.templateparser.*;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -21,16 +18,16 @@ public class QuickParse {
      * Pre-compiles given template.
      * @throws TemplateException
      */
-    public static PreCompiledTemplate preCompileTemplate(String template) {
+    public static Template preCompileTemplate(String template) {
         Objects.requireNonNull(template);
-        return PatternCompiler.compile(template);
+        return PatternCompiler.build(template);
     }
 
     /**
      * Compiles given PreCompiledTemplate.
      * @throws TemplateException
      */
-    public static CompiledTemplate compileTemplate(PreCompiledTemplate template) {
+    public static CompiledTemplate compileTemplate(Template template) {
         Objects.requireNonNull(template);
         return PatternCompiler.compile(template);
     }
@@ -41,7 +38,7 @@ public class QuickParse {
      */
     public static CompiledTemplate compileTemplate(String template) {
         Objects.requireNonNull(template);
-        return PatternCompiler.compile(PatternCompiler.compile(template));
+        return PatternCompiler.compile(PatternCompiler.build(template));
     }
 
     /**
@@ -55,7 +52,7 @@ public class QuickParse {
      * @see #parseToObject(Config, CompiledTemplate, String, Object, Class)
      */
     public static <T> T parseToObject(Config config, String template, String text, T tInstance, Class<T> tClass) {
-        CompiledTemplate compiledTemplate = compileTemplate(template);
+		CompiledTemplate compiledTemplate = compileTemplate(template);
         return parseToObject(config, compiledTemplate, text, tInstance, tClass);
     }
 
@@ -122,7 +119,7 @@ public class QuickParse {
      * @see #parseToList(Config, CompiledTemplate, String)
      */
     public static List<Object> parseToList(Config config, String template, String text) {
-        CompiledTemplate compiledTemplate = compileTemplate(template);
+		CompiledTemplate compiledTemplate = compileTemplate(template);
         return parseToList(config, compiledTemplate, text);
     }
 
@@ -161,7 +158,7 @@ public class QuickParse {
      * @see #parseToMap(Config, CompiledTemplate, String, boolean)
      */
     public static Map<String, Object> parseToMap(Config config, String template, String text, boolean duplicates) {
-        CompiledTemplate compiledTemplate = compileTemplate(template);
+		CompiledTemplate compiledTemplate = compileTemplate(template);
         return parseToMap(config, compiledTemplate, text, duplicates);
     }
 

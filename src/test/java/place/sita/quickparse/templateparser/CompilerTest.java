@@ -12,7 +12,7 @@ public class CompilerTest {
 
     @Test
     void should_compileCorrectTemplate_when_withNoNamesNorTypesSingleSign() {
-        CompiledTemplate template = Assertions.assertDoesNotThrow(() -> QuickParse.compileTemplate(" $ "));
+        CompiledTemplateImpl template = (CompiledTemplateImpl) Assertions.assertDoesNotThrow(() -> QuickParse.compileTemplate(" $ "));
         assertEquals(1, template.getGroups().size());
         validateGroup(template, 0, null, null);
         validateRegex(template, "\\Q \\E(.*)\\Q \\E");
@@ -20,7 +20,7 @@ public class CompilerTest {
 
     @Test
     void should_compileCorrectTemplate_when_withNoNamesNorTypes() {
-        CompiledTemplate template = assertDoesNotThrow(() -> QuickParse.compileTemplate("$ $"));
+        CompiledTemplateImpl template = (CompiledTemplateImpl) assertDoesNotThrow(() -> QuickParse.compileTemplate("$ $"));
         assertEquals(2, template.getGroups().size());
         validateGroup(template, 0, null, null);
         validateGroup(template, 1, null, null);
@@ -30,7 +30,7 @@ public class CompilerTest {
 
     @Test
     void should_compileCorrectTemplate_when_withNamesAndNoTypes() {
-        CompiledTemplate template = assertDoesNotThrow(() -> QuickParse.compileTemplate("${template1}$ ${template2}$"));
+        CompiledTemplateImpl template = (CompiledTemplateImpl) assertDoesNotThrow(() -> QuickParse.compileTemplate("${template1}$ ${template2}$"));
         assertEquals(2, template.getGroups().size());
         validateGroup(template, 0, "template1", null);
         validateGroup(template, 1, "template2", null);
@@ -39,7 +39,7 @@ public class CompilerTest {
 
     @Test
     void should_compileCorrectTemplate_when_withDuplicateNamesAndNoTypes() {
-        CompiledTemplate template = assertDoesNotThrow(() -> QuickParse.compileTemplate("${template1}$ ${template1}$"));
+        CompiledTemplateImpl template = (CompiledTemplateImpl) assertDoesNotThrow(() -> QuickParse.compileTemplate("${template1}$ ${template1}$"));
         assertEquals(2, template.getGroups().size());
         validateGroup(template, 0, "template1", null);
         validateGroup(template, 1, "template1", null);
@@ -48,7 +48,7 @@ public class CompilerTest {
 
     @Test
     void should_compileCorrectTemplate_when_withNamesAndNoTypesAndComplexUnicodeCharacter() {
-        CompiledTemplate template = assertDoesNotThrow(() -> QuickParse.compileTemplate("${template1}$ \uD867\uDE3D ${template1}$"));
+        CompiledTemplateImpl template = (CompiledTemplateImpl) assertDoesNotThrow(() -> QuickParse.compileTemplate("${template1}$ \uD867\uDE3D ${template1}$"));
         assertEquals(2, template.getGroups().size());
         validateGroup(template, 0, "template1", null);
         validateGroup(template, 1, "template1", null);
@@ -57,7 +57,7 @@ public class CompilerTest {
 
     @Test
     void should_compileCorrectTemplate_when_withNamesAndTypes() {
-        CompiledTemplate template = assertDoesNotThrow(() -> QuickParse.compileTemplate("$(int){template1}$ $(int2){template2}$"));
+        CompiledTemplateImpl template = (CompiledTemplateImpl) assertDoesNotThrow(() -> QuickParse.compileTemplate("$(int){template1}$ $(int2){template2}$"));
         assertEquals(2, template.getGroups().size());
         validateGroup(template, 0, "template1", "int");
         validateGroup(template, 1, "template2", "int2");
@@ -66,7 +66,7 @@ public class CompilerTest {
 
     @Test
     void should_compileCorrectTemplate_when_withEmptyNamesAndTypes() {
-        CompiledTemplate template = assertDoesNotThrow(() -> QuickParse.compileTemplate("$(){}$ $(){}$"));
+        CompiledTemplateImpl template = (CompiledTemplateImpl) assertDoesNotThrow(() -> QuickParse.compileTemplate("$(){}$ $(){}$"));
         assertEquals(2, template.getGroups().size());
         validateGroup(template, 0, "", "");
         validateGroup(template, 1, "", "");
@@ -75,7 +75,7 @@ public class CompilerTest {
 
     @Test
     void should_compileCorrectTemplate_when_withNamesAndTypesAndComplexUnicodeCharacter() {
-        CompiledTemplate template = assertDoesNotThrow(() -> QuickParse.compileTemplate("$(int){template1}$ \uD867\uDE3D $(int2){template1}$"));
+        CompiledTemplateImpl template = (CompiledTemplateImpl) assertDoesNotThrow(() -> QuickParse.compileTemplate("$(int){template1}$ \uD867\uDE3D $(int2){template1}$"));
         assertEquals(2, template.getGroups().size());
         validateGroup(template, 0, "template1", "int");
         validateGroup(template, 1, "template1", "int2");
@@ -84,7 +84,7 @@ public class CompilerTest {
 
     @Test
     void should_compileCorrectTemplate_when_withNamesAndTypesAndComplexUnicodeCharacterAndEscapedCharacter() {
-        CompiledTemplate template = assertDoesNotThrow(() -> QuickParse.compileTemplate("$(int){template1}$ \uD867\uDE3D $(int2){template1}$ $$"));
+        CompiledTemplateImpl template = (CompiledTemplateImpl) assertDoesNotThrow(() -> QuickParse.compileTemplate("$(int){template1}$ \uD867\uDE3D $(int2){template1}$ $$"));
         assertEquals(2, template.getGroups().size());
         validateGroup(template, 0, "template1", "int");
         validateGroup(template, 1, "template1", "int2");
@@ -93,7 +93,7 @@ public class CompilerTest {
 
     @Test
     void should_compileCorrectTemplate_when_withNamesAndTypesAndComplexUnicodeCharacterAndEscapedCharacterAndRegexInside() {
-        CompiledTemplate template = assertDoesNotThrow(() -> QuickParse.compileTemplate("$(int){template1}$ \uD867\uDE3D $(int2){template1}$ (.*) $$"));
+        CompiledTemplateImpl template = (CompiledTemplateImpl) assertDoesNotThrow(() -> QuickParse.compileTemplate("$(int){template1}$ \uD867\uDE3D $(int2){template1}$ (.*) $$"));
         assertEquals(2, template.getGroups().size());
         validateGroup(template, 0, "template1", "int");
         validateGroup(template, 1, "template1", "int2");
@@ -102,7 +102,7 @@ public class CompilerTest {
 
     @Test
     void should_compileCorrectTemplate_when_withNamesAndTypesAndComplexUnicodeCharacterAndEscapedCharacterAndRegexInsideQuote() {
-        CompiledTemplate template = assertDoesNotThrow(() -> QuickParse.compileTemplate("$ (.*) \\E $$"));
+        CompiledTemplateImpl template = (CompiledTemplateImpl) assertDoesNotThrow(() -> QuickParse.compileTemplate("$ (.*) \\E $$"));
         assertEquals(1, template.getGroups().size());
         validateGroup(template, 0, null, null);
         validateRegex(template, "(.*)\\Q (.*) \\E\\\\E\\Q $\\E");
@@ -110,7 +110,7 @@ public class CompilerTest {
 
     @Test
     void should_compileCorrectTemplate_when_withNamesAndTypesAndComplexUnicodeCharacterAndEscapedCharacterAndMultipleSignsNextToEachOtherEscaped() {
-        CompiledTemplate template = assertDoesNotThrow(() -> QuickParse.compileTemplate(" $$$ "));
+        CompiledTemplateImpl template = (CompiledTemplateImpl) assertDoesNotThrow(() -> QuickParse.compileTemplate(" $$$ "));
         assertEquals(1, template.getGroups().size());
         validateGroup(template, 0, null, null);
         validateRegex(template, "\\Q $\\E(.*)\\Q \\E");
@@ -156,12 +156,12 @@ public class CompilerTest {
         assertThrows(TemplateException.class, () -> QuickParse.compileTemplate(" $(abc){abc} "));
     }
 
-    private void validateGroup(CompiledTemplate template, int index, String name, String type) {
+    private void validateGroup(CompiledTemplateImpl template, int index, String name, String type) {
         assertEquals(name, template.getGroups().get(index).getName());
         assertEquals(type, template.getGroups().get(index).getType());
     }
 
-    private void validateRegex(CompiledTemplate template, String regex) {
+    private void validateRegex(CompiledTemplateImpl template, String regex) {
         assertEquals(regex, template.getRegex().toString());
     }
     

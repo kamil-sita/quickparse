@@ -1,5 +1,7 @@
 package place.sita.quickparse.templateparser;
 
+import place.sita.quickparse.TemplateElement;
+
 import java.util.List;
 
 class CaptureGroupTemplateElement implements TemplateElement {

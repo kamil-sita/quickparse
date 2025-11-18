@@ -1,23 +1,25 @@
 package place.sita.quickparse.templateparser;
 
+import place.sita.quickparse.CompiledTemplate;
+
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class CompiledTemplate {
+public class CompiledTemplateImpl implements CompiledTemplate {
 
     private final List<CaptureGroup> groups;
     private final Pattern regex;
 
-    CompiledTemplate(List<CaptureGroup> groups, Pattern regex) {
+    public CompiledTemplateImpl(List<CaptureGroup> groups, Pattern regex) {
         this.groups = groups;
         this.regex = regex;
     }
 
-    List<CaptureGroup> getGroups() {
+    public List<CaptureGroup> getGroups() {
         return groups;
     }
 
-    Pattern getRegex() {
+    public Pattern getRegex() {
         return regex;
     }
 }

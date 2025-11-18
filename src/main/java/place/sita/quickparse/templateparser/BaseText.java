@@ -1,5 +1,7 @@
 package place.sita.quickparse.templateparser;
 
+import place.sita.quickparse.TemplateElement;
+
 import java.util.regex.Pattern;
 
 class BaseText implements TemplateElement {

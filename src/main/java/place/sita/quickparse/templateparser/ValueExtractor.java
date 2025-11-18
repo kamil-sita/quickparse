@@ -1,7 +1,9 @@
 package place.sita.quickparse.templateparser;
 
+import place.sita.quickparse.CompiledTemplate;
 import place.sita.quickparse.Config;
 import place.sita.quickparse.NamedValue;
+import place.sita.quickparse.exc.InvalidApiUsageException;
 import place.sita.quickparse.exc.TemplateMismatchException;
 import place.sita.quickparse.parsers.TypeParser;
 
@@ -12,7 +14,14 @@ import java.util.regex.Matcher;
 public class ValueExtractor {
 
     public static List<NamedValue> extractValues(CompiledTemplate compiledTemplate, String text, Config config) {
+		if (!(compiledTemplate instanceof CompiledTemplateImpl)) {
+			throw new InvalidApiUsageException("CompiledTemplate is not an instance of CompiledTemplateImpl.");
+		}
+		CompiledTemplateImpl compiledTemplateImpl = (CompiledTemplateImpl) compiledTemplate;
+		return extractValues(compiledTemplateImpl, text, config);
+	}
 
+    private static List<NamedValue> extractValues(CompiledTemplateImpl compiledTemplate, String text, Config config) {
         Matcher matcher = compiledTemplate.getRegex().matcher(text);
 
         if (!matcher.matches()) {

@@ -1,5 +1,7 @@
 package place.sita.quickparse.templateparser;
 
+import place.sita.quickparse.Template;
+import place.sita.quickparse.TemplateElement;
 import place.sita.quickparse.exc.TemplateException;
 
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public class PatternCompiler {
         this.template = template;
     }
 
-    public static PreCompiledTemplate compile(String template) {
+    public static Template build(String template) {
         return new PatternCompiler(template).preCompileInternal();
     }
 
@@ -40,7 +42,7 @@ public class PatternCompiler {
 
     private ArgParseContext argParseContext;
 
-    private PreCompiledTemplate preCompileInternal() throws TemplateException {
+    private Template preCompileInternal() throws TemplateException {
         int length = template.length();
 
         for (; i < length; i++) {
@@ -61,7 +63,7 @@ public class PatternCompiler {
             templateElements.add(new CaptureGroupTemplateElement(argParseContext));
         }
 
-        return new PreCompiledTemplate(templateElements);
+        return new Template(templateElements);
     }
 
     private void parseBaseText(char c) {
@@ -130,8 +132,8 @@ public class PatternCompiler {
         segmentStartedAt = i;
     }
 
-    public static CompiledTemplate compile(PreCompiledTemplate preCompiledTemplate) {
-        List<TemplateElement> templateElements = preCompiledTemplate.getGroups();
+    public static CompiledTemplateImpl compile(Template template) {
+        List<TemplateElement> templateElements = template.getElements();
         templateElements = cleanup(templateElements);
 
         for (int tid = 0; tid < templateElements.size(); tid++) {
@@ -181,7 +183,7 @@ public class PatternCompiler {
                 ).collect(Collectors.toList());
 
 
-        return new CompiledTemplate(captureGroup, Pattern.compile(regexPattern));
+        return new CompiledTemplateImpl(captureGroup, Pattern.compile(regexPattern));
     }
 
     private boolean nextCharacterAlsoSeparator(int i) {
