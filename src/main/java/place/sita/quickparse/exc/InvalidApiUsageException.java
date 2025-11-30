@@ -10,4 +10,8 @@ public class InvalidApiUsageException extends RuntimeException {
 	public InvalidApiUsageException(String message) {
 		super(message);
 	}
+
+	public InvalidApiUsageException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

@@ -68,6 +68,34 @@ coords.y1; //<-- now it's -13
 coords.y2; //<-- now it's -14
 ```
 
+
+### Builder
+
+Of course, having one class with different methods for configuration is not scalable. Since QuickParse 0.2, a builder
+pattern has been introduced.
+To create a simple to object parser, write:
+
+```java
+QuickParser<T> parser = QuickParserBuilder.builder()
+    .withConfig(config)
+    .withTemplate(template)
+    .createParser(new ToObjectMapper<>(() -> tInstance));
+```
+
+or, to create objects using reflection:
+```java
+QuickParser<T> parser = QuickParserBuilder.builder()
+	.withConfig(config)
+	.withTemplate(template)
+	.createParser(ToObjectMapper.reflectionBased(tClass));
+```
+
+and call the parser:
+
+```java
+T t = parser.parse(input);
+```
+
 ### Optimization
 
 QuickParse supports pattern compilation for reuse.

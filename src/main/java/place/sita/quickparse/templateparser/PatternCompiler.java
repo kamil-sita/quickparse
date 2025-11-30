@@ -7,6 +7,7 @@ import place.sita.quickparse.exc.TemplateException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.regex.Pattern;
@@ -30,6 +31,7 @@ public class PatternCompiler {
     }
 
     public static Template build(String template) {
+	    Objects.requireNonNull(template);
         return new PatternCompiler(template).preCompileInternal();
     }
 
@@ -135,6 +137,7 @@ public class PatternCompiler {
     }
 
     public static CompiledTemplateImpl compile(Template template) {
+		Objects.requireNonNull(template);
         List<TemplateElement> templateElements = template.getElements();
         templateElements = cleanup(templateElements);
 

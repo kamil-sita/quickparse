@@ -1,6 +1,10 @@
 package place.sita.quickparse;
 
 import place.sita.architecture.PublicApi;
+import place.sita.quickparse.builder.QuickParserBuilder;
+import place.sita.quickparse.builder.mappers.ToMapMapper;
+import place.sita.quickparse.builder.mappers.ToObjectListMapper;
+import place.sita.quickparse.builder.mappers.ToObjectMapper;
 import place.sita.quickparse.exc.AssignmentException;
 import place.sita.quickparse.exc.NoSuchParserException;
 import place.sita.quickparse.exc.TemplateException;
@@ -82,32 +86,11 @@ public class QuickParse {
         Objects.requireNonNull(tInstance);
         Objects.requireNonNull(tClass);
 
-        List<NamedValue> values = ValueExtractor.extractValues(compiledTemplate, text, config);
-
-        for (NamedValue namedValue : values) {
-            Field field;
-            String name = namedValue.getName();
-            Object value = namedValue.getValue();
-            try {
-                field = tClass.getDeclaredField(name);
-            } catch (NoSuchFieldException noSuchFieldException) {
-                throw new AssignmentException("No field with name \"" + name + "\"");
-            }
-            try {
-                field.setAccessible(true);
-            } catch (SecurityException securityException) {
-                throw new AssignmentException("Can't set \"" + name + "\" to be accessible");
-            }
-            try {
-                field.set(tInstance, value);
-            } catch (IllegalAccessException e) {
-                throw new AssignmentException("Illegal access to \"" + name + "\"");
-            } catch (IllegalArgumentException e) {
-                throw new AssignmentException("Cannot assign object with name \"" + name + "\" to given type.");
-            }
-        }
-
-        return tInstance;
+	    return QuickParserBuilder.builder()
+		    .withConfig(config)
+		    .withCompiledTemplate(compiledTemplate)
+		    .createParser(new ToObjectMapper<>(() -> tInstance))
+		    .parse(text);
     }
 
     /**
@@ -144,9 +127,11 @@ public class QuickParse {
         Objects.requireNonNull(compiledTemplate);
         Objects.requireNonNull(text);
 
-        List<NamedValue> values = ValueExtractor.extractValues(compiledTemplate, text, config);
-
-        return values.stream().map(NamedValue::getValue).collect(Collectors.toList());
+		return QuickParserBuilder.builder()
+			.withConfig(config)
+			.withCompiledTemplate(compiledTemplate)
+			.createParser(new ToObjectListMapper())
+			.parse(text);
     }
 
     /**
@@ -183,38 +168,11 @@ public class QuickParse {
         Objects.requireNonNull(config);
         Objects.requireNonNull(compiledTemplate);
         Objects.requireNonNull(text);
-        List<NamedValue> values = ValueExtractor.extractValues(compiledTemplate, text, config);
 
-        Set<String> namesAssigned = new HashSet<>();
-        Set<String> listExists = new HashSet<>();
-        Map<String, Object> objects = new HashMap<>();
-
-        for (NamedValue value : values) {
-            Object val = value.getValue();
-            String name = value.getName();
-
-            if (namesAssigned.contains(name)) {
-                if (!duplicates) {
-                    throw new AssignmentException("Second assignment to name \"" + name + "\"");
-                } else {
-                    if (listExists.contains(name)) {
-                        List objList = (List) objects.get(name);
-                        objList.add(val);
-                    } else {
-                        Object obj = objects.get(name);
-                        List objList = new ArrayList();
-                        objList.add(obj);
-                        objList.add(val);
-                        listExists.add(name);
-                        objects.put(name, objList);
-                    }
-                }
-            } else {
-                objects.put(name, val);
-                namesAssigned.add(name);
-            }
-        }
-
-        return objects;
+	    return QuickParserBuilder.builder()
+		    .withConfig(config)
+		    .withCompiledTemplate(compiledTemplate)
+		    .createParser(new ToMapMapper(duplicates))
+		    .parse(text);
     }
 }
